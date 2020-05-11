@@ -74,6 +74,8 @@ clickables = [
     game_textbox
 ]
 drawables = [*clickables]
+avaliabe_devices = []
+
 
 mode  = True
 building = False
@@ -83,6 +85,7 @@ key_able = True
 
 for key in items:
     items_list.append(items[key])
+
 
 
 while run:
@@ -114,6 +117,7 @@ while run:
                 drawable_item.draw(window)
                 py.display.update()
                 drawables.append(drawable_item)
+                avaliabe_devices.append(this_item)
 
         if event.type == py.KEYDOWN:
             if event.key == TAB:
@@ -133,13 +137,10 @@ while run:
                 if event.key == 271:
                     print('f')
                     for power_textbox in power_textboxes:
-                        function_output = power_textbox.turning_on_all_devices(devices_list)
+                        function_output = power_textbox.turning_on_all_devices(avaliabe_devices)
                         for i in range(len(function_output)):
                             drawable_item = function_output[i]
                             drawable_item.draw(window)
                             py.display.update()
                             drawables.append(drawable_item)
-
-
-
 py.quit()

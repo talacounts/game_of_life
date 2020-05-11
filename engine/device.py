@@ -11,10 +11,6 @@ class Device(Item):
         self.active_image_path = active_image_path
         self.non_active_image_path = self.image_path
 
-    def update_state(self):
-        pass
-
-
     def activating(self,action: bool):
         print('activating')
         if action == True:

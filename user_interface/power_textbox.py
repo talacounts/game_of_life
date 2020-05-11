@@ -38,7 +38,7 @@ class PowerTextbox(Textbox):
 
         self.render()
 
-    def turning_on_all_devices(self, devices_list):
+    def turning_on_all_devices(self, devices_list: list):
         renderd_images = []
         devices_list_checked = []
         for device in devices_list:
