@@ -7,7 +7,9 @@ class Drawable(ABC):
         self.rendered: Optional[Surface] = None
         self.x = x
         self.y = y
-        self.pos = Vector(x,y)
+        print(type(self.x).__name__)
+        if not type(self.x).__name__ == 'NoneType':
+            self.pos = Vector(x,y)
         self.width = width
         self.height = height
 
@@ -19,7 +21,7 @@ class Drawable(ABC):
         self.rendered: Optional[Surface] = self._render()
 
     def draw(self, window):
-        if self.rendered is None:
-            self.render()
-
-        window.blit(self.rendered, self.pos)
+        if not type(self.x).__name__ == 'NoneType':
+            if self.rendered is None:
+                self.render()
+            window.blit(self.rendered, self.pos)

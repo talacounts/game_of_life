@@ -7,6 +7,7 @@ from .clickable import BLUE, RED
 
 class PowerTextbox(Textbox):
     def __init__(self, x: int, y: int, width: int, height: int, power_on: bool, device: Device, possible_devices: List[Device]):
+
         super(PowerTextbox, self).__init__(x, y, width, height, "Turn on when: " if power_on else "Turn off when: ")
         self.devices_list = []
         self.power_on: bool = power_on
@@ -40,11 +41,12 @@ class PowerTextbox(Textbox):
 
     def turning_on_all_devices(self, devices_list: list):
         renderd_images = []
+        append_drawable = []
         devices_list_checked = []
         for device in devices_list:
             if device.name in self.devices_list:
                 devices_list_checked.append(device)
-        print(devices_list_checked)
         for device in devices_list_checked:
-            renderd_images.append(device.activating(self.power_on))
-        return renderd_images
+            device.activating(self.power_on)
+            append_drawable.append(device)
+        return append_drawable

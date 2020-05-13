@@ -5,25 +5,27 @@ from typing import Tuple, Dict, Any
 from pygame.math import Vector2 as Vector
 from engine.fs.serialization import Serializable
 
-class Item(Serializable):
-    def __init__(self, width: int, height: int, image_path: str, cost: int, name: str, background_color ):
-        super(Item, self).__init__(width=width, height=height, image_path=image_path, cost=cost, name=name, background_color=background_color)
+class Item(Serializable, DrawableImage):
+    def __init__(self, width: int, height: int, image_path: str, cost: int, name: str, background_color, x: int, y: int):
+        Serializable.__init__(self, width=width, height=height, image_path=image_path, cost=cost, name=name, background_color=background_color)
+        DrawableImage.__init__(self, x, y, width, height, image_path, background_color)
         self.cost: int = cost
         self.name = name
         self.width = width
         self.height = height
         self.image_path = image_path
         self.background_color = background_color
-        self.pos = (0,0)
 
     def buy_instance(self, player, mouse_pos: Vector, window) -> DrawableImage:
-        self.pos = mouse_pos
-        print("buying")
+        self.updating_pos(mouse_pos)
         player.money -= self.cost
-        return self.rendering(mouse_pos)
 
-    def rendering(self, mouse_pos: Vector):
-        return DrawableImage(self.pos[0], self.pos[1], self.width, self.height, self.image_path, self.background_color)
+    def updating_pos(self, mouse_pos: Vector):
+        self.x,self.y = mouse_pos
+        self.pos = self.x, self.y
+
+
+
 
     #def serialize(self):
         #return {'x': self.x, 'y': self.y, 'width': self.width, 'height': self.height, 'image_path': self.image_path,'cost': self.cost}
