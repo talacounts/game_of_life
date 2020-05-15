@@ -17,8 +17,10 @@ class Item(Serializable, DrawableImage):
         self.background_color = background_color
 
     def buy_instance(self, player, mouse_pos: Vector, window) -> DrawableImage:
-        self.updating_pos(mouse_pos)
-        player.money -= self.cost
+        if self in player.avaliabe_items:
+            self.updating_pos(mouse_pos)
+        else:
+            print('you dont have this item')
 
     def updating_pos(self, mouse_pos: Vector):
         self.x,self.y = mouse_pos

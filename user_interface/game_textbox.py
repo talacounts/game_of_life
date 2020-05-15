@@ -28,11 +28,15 @@ class GameTextbox(Textbox):
             else:
                 self.text += "; Good job"
                 self.player.money += 100
-                self.tries = 5
+                self.game_over()
         else:
-            self.text = 'game over'
-            self.random_number = int(random() * 10)
-            self.Money_Textbox.update_text()
-            self.tries = 0
-        self.render()
+            self.game_over()
+
         # self.tries += 1
+
+    def game_over(self):
+        self.text = 'game over'
+        self.random_number = int(random() * 10)
+        self.Money_Textbox.update_text()
+        self.tries = 0
+        self.render()

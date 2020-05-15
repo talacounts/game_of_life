@@ -14,10 +14,15 @@ from engine.player import Player
 import scipy
 import os
 from user_interface.show_money_textbox import Money_Textbox
-
+from user_interface.shop_textbox import Shop_textbox
 from scipy.spatial.distance import cdist
 
-POINTS = []
+
+
+def create_shop_textbox(y: int, player: Player, items_list: list):
+    print('shopp')
+    return Shop_textbox(260, y, 200, 50, player, items_list)
+
 def create_power_textboxes(y: int, device: Device, devices_list: list):
     return [PowerTextbox(40, y, 200, 50, True, device, devices_list),
             PowerTextbox(40, y + 100, 200, 50, False, device, devices_list)]
@@ -40,19 +45,3 @@ def create_window(height, width, caption):
     window = py.display.set_mode((height, width))
     py.display.set_caption(caption)
     return window
-
-
-def creating_points(width: int, height: int, height_mulitple: int):
-    def calculating_one_row(height: int):
-        for i in range(3):
-            POINTS.append([(width / 3) * (i + 1), start_height])
-
-    calculate_height = height / 3
-
-    for i in range(3):
-        calculating_one_row(calculate_height * (i + 1))
-    return points
-
-def find_closest(place: tuple):
-    distances = POINTS - place
-    return points[cdist([place], points).argmin()]

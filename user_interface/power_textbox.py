@@ -27,9 +27,6 @@ class PowerTextbox(Textbox):
         for i in range(len(self.devices_list)):
             if self.devices_list[i] in possibilities:
                 blue = True
-
-            else:
-                blue = False
         if blue == True:
             self.text_color = BLUE
             self.action = Action(True, self.devices_list, self.power_on)

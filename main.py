@@ -17,9 +17,9 @@ import os
 
 
 py.init()
-print('what is your name')
-player = Player(0, str(input()))
-print(player.name)
+print('What is your name')
+player = Player(2000000, str(input()),[])
+
 # Path(base_path) / 'textures' / 'brick.png'
 devices_list = []
 E_KEY = 101
@@ -31,7 +31,7 @@ this_item = ''
 items_list= []
 TAB = 9
 fridge_path = os.path.dirname(os.path.realpath(__file__)) + '/textures' + '/fridge.jpeg'
-print(fridge_path)
+
 door_path = os.path.dirname(os.path.realpath(__file__)) + '/textures' + '/door.png'
 active_fridge_path = os.path.dirname(os.path.realpath(__file__)) + '/textures' + '/open_fridge.jpeg'
 
@@ -65,10 +65,13 @@ show_money_textbox = creat_money_textbox(100, player)
 
 game_textbox = create_game_textbox(550, show_money_textbox, player)
 
+shop_textbox  = create_shop_textbox(200, player, devices_list)
+
 clickables = [
     *power_textboxes,
     game_textbox,
-    show_money_textbox
+    show_money_textbox,
+    shop_textbox
 ]
 drawables = [*clickables]
 avaliabe_devices = []
@@ -86,7 +89,7 @@ for key in items:
 
 
 while run:
-    #print(mode)
+
     window.fill(BACKGROUND_COLOR)
     for drawable in drawables:
         drawable.draw(window)
@@ -104,7 +107,7 @@ while run:
             if event.type == py.KEYDOWN:
                 if 48 <= event.key <= 59:
                     this_item = items_list[int(chr(event.key)) - 1]
-                    print(this_item)
+
                 if event.key == ERASE_KEY:
                     this_item.is_drawing = False
                     this_item.draw(window)
