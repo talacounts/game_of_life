@@ -8,8 +8,8 @@ import pygame as py
 
 
 class DrawableImage(Drawable):
-    def __init__(self,x: int, y: int, width: int, height: int, image_path , background_color ):
-        super(DrawableImage, self).__init__(x=x, y=y, width=width, height=height)
+    def __init__(self,x: int, y: int, width: int, height: int, image_path , background_color, is_drawing ):
+        super(DrawableImage, self).__init__(x=x, y=y, width=width, height=height, is_drawing=is_drawing)
         self.image_path :Path = image_path
         self.background_color = background_color
 

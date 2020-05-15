@@ -12,28 +12,34 @@ from engine.player import Player
 import numpy as np
 from path import Path
 from engine.player import Player
+from main_functions import *
 import os
 
+
 py.init()
-player = Player(0)
+print('what is your name')
+player = Player(0, str(input()))
+print(player.name)
 # Path(base_path) / 'textures' / 'brick.png'
 devices_list = []
+E_KEY = 101
+ERASE_KEY  = E_KEY
 F = 102
 base_path = os.getcwd()
 background_color = (0,0,0)
 this_item = ''
 items_list= []
 TAB = 9
-fridge_path = os.path.dirname(os.path.realpath(__file__)) + '/textures' + '/fridge.png'
+fridge_path = os.path.dirname(os.path.realpath(__file__)) + '/textures' + '/fridge.jpeg'
 print(fridge_path)
 door_path = os.path.dirname(os.path.realpath(__file__)) + '/textures' + '/door.png'
-active_fridge_path = os.path.dirname(os.path.realpath(__file__)) + '/textures' + '/open_fridge.png'
+active_fridge_path = os.path.dirname(os.path.realpath(__file__)) + '/textures' + '/open_fridge.jpeg'
 
 
 
 devices = {
-    'fridge': Device(50, 50, fridge_path, 20, True, False, 'fridge', active_fridge_path, background_color, None, None ),
-    'door': Device(50, 50, door_path, 20, True, False, 'door', door_path, background_color, None, None)
+    'fridge': Device(50, 50, fridge_path, 20, True, False, 'fridge', active_fridge_path, background_color, None, None, False ),
+    'door': Device(50, 50, door_path, 20, True, False, 'door', door_path, background_color, None, None, False)
 }
 
 devices_list = list(devices.values())
@@ -46,36 +52,23 @@ for key in devices:
 
 BACKGROUND_COLOR = (54, 54, 54)
 
-def create_window(height, width, caption):
-    window = py.display.set_mode((height, width))
-    py.display.set_caption(caption)
-    return window
 
-print("creating window")
-window = create_window(1350, 800, "Automation")
 
-print("creating power textbox")
-def create_power_textboxes(y, device):
-    return [PowerTextbox(40, y, 200, 50, True, device, devices_list),
-            PowerTextbox(40, y + 100, 200, 50, False, device, devices_list)]
-def create_clickables(y):
-    return [Clickable(40, y, 200, 50),
-            Clickable(40, y + 200, 200,50)]
+window = create_window(1350, 800, "game_of_life")
 
-def create_textboxes(titles, y):
-    return [Textbox(40, y, 200, 50, titles[0])]
 
-def create_game_textbox(y):
-    return GameTextbox(40, y ,200, 50,"random number game")
 
-print('power texboxes')
-power_textboxes = [*create_power_textboxes(100,devices['fridge'])]
-print('done power')
-game_textbox = create_game_textbox(550)
-print('done game')
+
+power_textboxes = [*create_power_textboxes(100,devices['fridge'], devices_list)]
+
+show_money_textbox = creat_money_textbox(100, player)
+
+game_textbox = create_game_textbox(550, show_money_textbox, player)
+
 clickables = [
     *power_textboxes,
-    game_textbox
+    game_textbox,
+    show_money_textbox
 ]
 drawables = [*clickables]
 avaliabe_devices = []
@@ -91,7 +84,7 @@ for key in items:
     items_list.append(items[key])
 
 
-print('starting')
+
 while run:
     #print(mode)
     window.fill(BACKGROUND_COLOR)
@@ -112,9 +105,13 @@ while run:
                 if 48 <= event.key <= 59:
                     this_item = items_list[int(chr(event.key)) - 1]
                     print(this_item)
-
+                if event.key == ERASE_KEY:
+                    this_item.is_drawing = False
+                    this_item.draw(window)
+                    py.display.update()
 
             if event.type  == py.MOUSEBUTTONDOWN:
+                this_item.is_drawing = True
                 mouse_pos = py.mouse.get_pos()
                 this_item.buy_instance(player, mouse_pos, window)
                 py.display.update()
@@ -137,9 +134,11 @@ while run:
 
             if event.type == py.KEYDOWN:
                 if event.key == 271:
-                    print('f')
+                    print('turning all devices')
                     for power_textbox in power_textboxes:
                         new_drawables = power_textbox.turning_on_all_devices(avaliabe_devices)
                         for device in new_drawables:
                             drawables.append(device)
+                            device.draw(window)
+
 py.quit()

@@ -6,9 +6,9 @@ from pygame.math import Vector2 as Vector
 from engine.fs.serialization import Serializable
 
 class Item(Serializable, DrawableImage):
-    def __init__(self, width: int, height: int, image_path: str, cost: int, name: str, background_color, x: int, y: int):
+    def __init__(self, width: int, height: int, image_path: str, cost: int, name: str, background_color, x: int, y: int, is_drawing: bool):
         Serializable.__init__(self, width=width, height=height, image_path=image_path, cost=cost, name=name, background_color=background_color)
-        DrawableImage.__init__(self, x, y, width, height, image_path, background_color)
+        DrawableImage.__init__(self, x, y, width, height, image_path, background_color, is_drawing)
         self.cost: int = cost
         self.name = name
         self.width = width

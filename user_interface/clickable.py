@@ -12,7 +12,7 @@ WHITE: Tuple[int] = (255, 255, 255)
 
 class Clickable(Drawable):
     def __init__(self, x: int, y: int, width: int, height: int):
-        super(Clickable,self).__init__(x, y, width, height)
+        super(Clickable,self).__init__(x, y, width, height, True)
         self.x: int = x
         self.y: int = y
         self.width: int = width

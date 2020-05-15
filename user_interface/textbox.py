@@ -10,7 +10,7 @@ BACKSPACE: int = 8
 ENTER: int = 13
 
 class Textbox(Clickable):
-    def __init__(self, x, y, width, height, title):
+    def __init__(self, x: int, y: int, width: int, height: int, title: str):
         super(Textbox, self).__init__(x, y, width, height)
         self.background_color: Tuple[int] = LIGHT_GRAY
         self.font: SystemFont = SystemFont("Calibiri", 18)
@@ -21,6 +21,7 @@ class Textbox(Clickable):
 
     def input_text(self, key_code: int):
         key: chr = chr(key_code)
+        print(key)
         if key_code == ENTER:
             # Handle enter, input ended
             self.on_unfocus()
