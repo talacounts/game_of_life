@@ -12,6 +12,7 @@ from engine.player import Player
 import numpy as np
 from path import Path
 from engine.player import Player
+from user_interface.time_power_textbox import TimePowerTextbox
 from main_functions import *
 import os
 
@@ -21,6 +22,7 @@ print('What is your name')
 player = Player(2000000, str(input()),[])
 
 # Path(base_path) / 'textures' / 'brick.png'
+times = []
 devices_list = []
 E_KEY = 101
 ERASE_KEY  = E_KEY
@@ -30,18 +32,23 @@ background_color = (0,0,0)
 player.this_item = None
 items_list= []
 TAB = 9
-fridge_path = os.path.dirname(os.path.realpath(__file__)) + '/textures' + '/fridge.png'
+
 
 door_path = os.path.dirname(os.path.realpath(__file__)) + '/textures' + '/door.png'
-active_fridge_path = os.path.dirname(os.path.realpath(__file__)) + '/textures' + '/open_fridge.png'
-
 active_door_path = os.path.dirname(os.path.realpath(__file__)) + '/textures' + '/door_open.png'
+
+active_fridge_path = os.path.dirname(os.path.realpath(__file__)) + '/textures' + '/open_fridge.png'
+fridge_path = os.path.dirname(os.path.realpath(__file__)) + '/textures' + '/fridge.png'
+
+light_path = os.path.dirname(os.path.realpath(__file__)) + '/textures' + '/light.png'
+active_light_path = os.path.dirname(os.path.realpath(__file__)) + '/textures' + '/open_light.png'
 
 
 
 devices = {
     'fridge': Device(50, 50, fridge_path, 20, True, False, 'fridge', active_fridge_path, background_color, None, None, False ),
-    'door': Device(50, 50, door_path, 20, True, False, 'door', active_door_path, background_color, None, None, False)
+    'door': Device(50, 50, door_path, 20, True, False, 'door', active_door_path, background_color, None, None, False),
+    'light': Device(50, 50, light_path, 20, True, False, 'light', active_light_path, background_color, None, None, False)
 }
 
 devices_list = list(devices.values())
@@ -68,6 +75,8 @@ game_textbox = create_game_textbox(550, show_money_textbox, player)
 shop_textbox  = create_shop_textbox(200, player, devices_list)
 
 use_textbox = create_use_items_textbox(300, player)
+
+
 
 textboxes = [
     *power_textboxes,
