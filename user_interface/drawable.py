@@ -17,7 +17,7 @@ class Drawable(ABC):
         self.is_drawing = is_drawing
 
     @abstractmethod
-    def _render(self) :
+    def _render(self):
         pass
 
     def render(self):

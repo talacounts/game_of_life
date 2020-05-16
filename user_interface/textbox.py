@@ -25,13 +25,11 @@ class Textbox(Clickable):
         if key_code == ENTER:
             # Handle enter, input ended
             self.on_unfocus()
-            self.on_finish()
-
         elif key_code == BACKSPACE and len(self.text) > 0:
             # Handle backspace, delete last character
             self.text = self.text[:-1]
             self.render()
-        if key in string.printable:
+        elif key in string.printable:
             # Handle regular character, append to text
             self.text += key
             self.render()
@@ -56,6 +54,8 @@ class Textbox(Clickable):
         super(Textbox, self).on_unfocus()
         self.background_color = LIGHT_GRAY
         self.render()
+        self.on_finish()
+        self.text = ""
 
     def on_finish(self):
         pass

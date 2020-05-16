@@ -27,19 +27,21 @@ ERASE_KEY  = E_KEY
 F = 102
 base_path = os.getcwd()
 background_color = (0,0,0)
-this_item = ''
+player.this_item = None
 items_list= []
 TAB = 9
-fridge_path = os.path.dirname(os.path.realpath(__file__)) + '/textures' + '/fridge.jpeg'
+fridge_path = os.path.dirname(os.path.realpath(__file__)) + '/textures' + '/fridge.png'
 
 door_path = os.path.dirname(os.path.realpath(__file__)) + '/textures' + '/door.png'
-active_fridge_path = os.path.dirname(os.path.realpath(__file__)) + '/textures' + '/open_fridge.jpeg'
+active_fridge_path = os.path.dirname(os.path.realpath(__file__)) + '/textures' + '/open_fridge.png'
+
+active_door_path = os.path.dirname(os.path.realpath(__file__)) + '/textures' + '/door_open.png'
 
 
 
 devices = {
     'fridge': Device(50, 50, fridge_path, 20, True, False, 'fridge', active_fridge_path, background_color, None, None, False ),
-    'door': Device(50, 50, door_path, 20, True, False, 'door', door_path, background_color, None, None, False)
+    'door': Device(50, 50, door_path, 20, True, False, 'door', active_door_path, background_color, None, None, False)
 }
 
 devices_list = list(devices.values())
@@ -57,8 +59,6 @@ BACKGROUND_COLOR = (54, 54, 54)
 window = create_window(1350, 800, "game_of_life")
 
 
-
-
 power_textboxes = [*create_power_textboxes(100,devices['fridge'], devices_list)]
 
 show_money_textbox = creat_money_textbox(100, player)
@@ -67,12 +67,16 @@ game_textbox = create_game_textbox(550, show_money_textbox, player)
 
 shop_textbox  = create_shop_textbox(200, player, devices_list)
 
-clickables = [
+use_textbox = create_use_items_textbox(300, player)
+
+textboxes = [
     *power_textboxes,
     game_textbox,
     show_money_textbox,
-    shop_textbox
+    shop_textbox,
+    use_textbox
 ]
+clickables = [*textboxes]
 drawables = [*clickables]
 avaliabe_devices = []
 
@@ -89,7 +93,6 @@ for key in items:
 
 
 while run:
-
     window.fill(BACKGROUND_COLOR)
     for drawable in drawables:
         drawable.draw(window)
@@ -101,25 +104,21 @@ while run:
     for event in py.event.get():
         if mode == False:
             print('mode = building')
-
-
             # print(items_list)
             if event.type == py.KEYDOWN:
-                if 48 <= event.key <= 59:
-                    this_item = items_list[int(chr(event.key)) - 1]
-
                 if event.key == ERASE_KEY:
-                    this_item.is_drawing = False
-                    this_item.draw(window)
+                    player.this_item.is_drawing = False
+                    player.this_item.draw(window)
                     py.display.update()
 
             if event.type  == py.MOUSEBUTTONDOWN:
-                this_item.is_drawing = True
-                mouse_pos = py.mouse.get_pos()
-                this_item.buy_instance(player, mouse_pos, window)
-                py.display.update()
-                drawables.append(this_item)
-                avaliabe_devices.append(this_item)
+                if player.this_item:
+                    player.this_item.is_drawing = True
+                    mouse_pos = py.mouse.get_pos()
+                    player.this_item.buy_instance(player, mouse_pos, window)
+                    py.display.update()
+                    drawables.append(player.this_item)
+                    avaliabe_devices.append(player.this_item)
 
         if event.type == py.KEYDOWN:
             if event.key == TAB:
@@ -131,12 +130,12 @@ while run:
                 for clickable in clickables:
                     clickable.handle_click(py.mouse.get_pos())
             if event.type == py.KEYDOWN:
-                for clickable in clickables:
-                    if clickable.focused:
-                        clickable.input_text(event.key)
+                for textbox in textboxes:
+                    if textbox.focused:
+                        textbox.input_text(event.key)
 
             if event.type == py.KEYDOWN:
-                if event.key == 271:
+                if chr(event.key) == 'r':
                     print('turning all devices')
                     for power_textbox in power_textboxes:
                         new_drawables = power_textbox.turning_on_all_devices(avaliabe_devices)

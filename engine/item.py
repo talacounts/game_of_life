@@ -17,6 +17,7 @@ class Item(Serializable, DrawableImage):
         self.background_color = background_color
 
     def buy_instance(self, player, mouse_pos: Vector, window) -> DrawableImage:
+        
         if self in player.avaliabe_items:
             self.updating_pos(mouse_pos)
         else:

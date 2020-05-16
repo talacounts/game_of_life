@@ -15,8 +15,12 @@ import scipy
 import os
 from user_interface.show_money_textbox import Money_Textbox
 from user_interface.shop_textbox import Shop_textbox
+from user_interface.use_items_textbox import Use_Textbox
 from scipy.spatial.distance import cdist
 
+
+def create_use_items_textbox(y: int, player: Player):
+    return Use_Textbox(260, y, 200, 50, player)
 
 
 def create_shop_textbox(y: int, player: Player, items_list: list):
@@ -24,8 +28,8 @@ def create_shop_textbox(y: int, player: Player, items_list: list):
     return Shop_textbox(260, y, 200, 50, player, items_list)
 
 def create_power_textboxes(y: int, device: Device, devices_list: list):
-    return [PowerTextbox(40, y, 200, 50, True, device, devices_list),
-            PowerTextbox(40, y + 100, 200, 50, False, device, devices_list)]
+    return [PowerTextbox(40, y, 200, 50, True, device, devices_list,','),
+            PowerTextbox(40, y + 100, 200, 50, False, device, devices_list,',')]
 
 def creat_money_textbox(y: int, player: Player):
     return Money_Textbox(260, y, 200, 50, player)

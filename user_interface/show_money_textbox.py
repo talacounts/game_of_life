@@ -8,11 +8,17 @@ class Money_Textbox(Textbox):
         super(Money_Textbox, self).__init__(x, y, width, height, player.name)
         self.player = player
         self.title = self.player.name
-        self.text = str(player.money)
 
-    def input_text(self, key):
+    def _render(self):
+        self.text = str(self.player.money)
+        return super(Money_Textbox, self)._render()
+
+    def draw(self, window):
+        self.render()
+        super(Textbox, self).draw(window)
+
+    def on_focus(self):
         pass
 
-    def update_text(self):
-        self.text = str(self.player.money)
-        self.render()
+    def on_unfocus(self):
+        pass

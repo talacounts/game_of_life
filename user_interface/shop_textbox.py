@@ -10,12 +10,18 @@ class Shop_textbox(Textbox):
         self.all_items_list = items_list
 
     def on_finish(self):
-        items_list_names = []
-        for item in self.all_items_list:
-            items_list_names.append(item.name)
-        if self.text in items_list_names:
-            self.text_color = BLUE
-            self.player.avaliabe_items.append(self.all_items_list[items_list_names.index(self.text)])
+        item = next((item for item in self.all_items_list if item.name == self.text), None)
+        if item:
+            if self.player.money < item.cost:
+                self.text_color = RED
+                self.text += "; Not enough money!!! You poor!!!!"
+            else:
+                self.player.money -= item.cost
+                self.text_color = BLUE
+                self.text += "; Bought item!!! Yes I am rich!!!"
+                self.player.avaliabe_items.append(item)
         else:
             self.text_color = RED
             print('not a valid item')
+
+        self.render()

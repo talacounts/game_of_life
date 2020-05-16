@@ -17,6 +17,7 @@ class GameTextbox(Textbox):
         self.tries  = 0
         self.Money_Textbox = Money_Textbox
         self.player = player
+
     def on_finish(self):
         print(self.random_number)
         if self.tries <= 3:
@@ -32,11 +33,11 @@ class GameTextbox(Textbox):
         else:
             self.game_over()
 
-        # self.tries += 1
+        self.render()
+        self.text = ""
 
     def game_over(self):
         self.text = 'game over'
         self.random_number = int(random() * 10)
         self.Money_Textbox.update_text()
         self.tries = 0
-        self.render()
