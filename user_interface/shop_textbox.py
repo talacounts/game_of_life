@@ -14,11 +14,11 @@ class Shop_textbox(Textbox):
         if item:
             if self.player.money < item.cost:
                 self.text_color = RED
-                self.text += "; Not enough money!!! You poor!!!!"
+                self.text += "; Not enough money! Lets do some mini games!"
             else:
                 self.player.money -= item.cost
                 self.text_color = BLUE
-                self.text += "; Bought item!!! Yes I am rich!!!"
+                self.text += "; Bought item!!! now we can build!!"
                 self.player.avaliabe_items.append(item)
         else:
             self.text_color = RED
