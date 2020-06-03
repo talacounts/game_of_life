@@ -59,3 +59,5 @@ class Textbox(Clickable):
 
     def on_finish(self):
         pass
+    def update_text(self):
+        pass
